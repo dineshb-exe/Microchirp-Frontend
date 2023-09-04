@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:microchirp_frontend/global_utilities/custom_app_bar.dart';
-import 'package:microchirp_frontend/global_utilities/global_navigation_bar.dart';
 import 'package:microchirp_frontend/home/bloc/home_bloc.dart';
 import 'package:microchirp_frontend/global_models/global_blog_model.dart';
 import 'package:microchirp_frontend/home/ui/utilities/blog_tile.dart';
@@ -37,6 +36,11 @@ class _HomeFeedState extends State<HomeFeed> {
             ),
           );
         }
+        else if(state is HomeNavigateToNewBlogActionState){
+          context.router.push(
+            NewBlogPage(authValues: state.authValues),
+          );
+        }
       },
       builder: (context, state) {
         final successState = state as HomeLoadedSuccessState;
@@ -58,8 +62,42 @@ class _HomeFeedState extends State<HomeFeed> {
               );
             },
           ),
-          bottomNavigationBar: GlobalNavigationBar(
-            currentPageIndex: widget.currentPageIndex,
+          bottomNavigationBar: NavigationBar(
+            destinations: const <Widget>[
+              NavigationDestination(
+                selectedIcon: Icon(Icons.home),
+                icon: Icon(Icons.home_outlined),
+                label: 'Home',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.search),
+                label: 'Search',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.edit),
+                label: 'New Blog',
+              ),
+              // NavigationDestination(
+              //   selectedIcon: Icon(Icons.person),
+              //   icon: Icon(Icons.person_outlined),
+              //   label: 'Profile',
+              // ),
+            ],
+            selectedIndex: widget.currentPageIndex,
+            onDestinationSelected: (int index){
+              if(index==0&&widget.currentPageIndex!=0){
+
+              }
+              else if(index==1&&widget.currentPageIndex!=1){
+
+              }
+              else if(index==2&&widget.currentPageIndex!=2){
+                widget.homeBloc2.add(HomeNewBlogNavigateEvent(authValues: widget.authValues));
+              }
+              // else if(index==3&&widget.currentPageIndex!=3){
+              //
+              // }
+            },
           ),
         );
       },

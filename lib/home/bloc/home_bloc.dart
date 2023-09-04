@@ -54,7 +54,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> homeNewBlogNavigateEvent(HomeNewBlogNavigateEvent event, Emitter<HomeState> emit) {
-    emit(HomeNavigateToNewBlogActionState());
+    PostLogin authValues = event.authValues;
+    emit(HomeNavigateToNewBlogActionState(
+      authValues: authValues
+    ));
   }
 
   FutureOr<void> homeProfileNavigateEvent(HomeProfileNavigateEvent event, Emitter<HomeState> emit) {

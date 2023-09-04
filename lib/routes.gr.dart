@@ -41,6 +41,15 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    NewBlogPage.name: (routeData) {
+      final args = routeData.argsAs<NewBlogPageArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: NewBlog(
+          authValues: args.authValues,
+        ),
+      );
+    },
   };
 }
 
@@ -130,5 +139,37 @@ class BlogExpandedPageArgs {
   @override
   String toString() {
     return 'BlogExpandedPageArgs{isLiked: $isLiked, blog: $blog, authValues: $authValues}';
+  }
+}
+
+/// generated route for
+/// [NewBlog]
+class NewBlogPage extends PageRouteInfo<NewBlogPageArgs> {
+  NewBlogPage({
+    required PostLogin authValues,
+    List<PageRouteInfo>? children,
+  }) : super(
+          NewBlogPage.name,
+          args: NewBlogPageArgs(
+            authValues: authValues,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'NewBlogPage';
+
+  static const PageInfo<NewBlogPageArgs> page = PageInfo<NewBlogPageArgs>(name);
+}
+
+class NewBlogPageArgs {
+  const NewBlogPageArgs({
+    required this.authValues,
+  });
+
+  final PostLogin authValues;
+
+  @override
+  String toString() {
+    return 'NewBlogPageArgs{authValues: $authValues}';
   }
 }

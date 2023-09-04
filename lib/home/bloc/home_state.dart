@@ -28,6 +28,9 @@ class HomeNavigateToBlogActionState extends HomeActionState {
 
 class HomeNavigateToSearchBlogsActionState extends HomeActionState {}
 
-class HomeNavigateToNewBlogActionState extends HomeActionState {}
+class HomeNavigateToNewBlogActionState extends HomeActionState {
+  final PostLogin authValues;
+  HomeNavigateToNewBlogActionState({required this.authValues});
+}
 
 class HomeNavigateToProfileActionState extends HomeActionState {}

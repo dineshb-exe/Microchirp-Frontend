@@ -23,6 +23,9 @@ class HomeBlogLikeClickedEvent extends HomeEvent {
 
 class HomeSearchBlogsNavigateEvent extends HomeEvent {}
 
-class HomeNewBlogNavigateEvent extends HomeEvent {}
+class HomeNewBlogNavigateEvent extends HomeEvent {
+  PostLogin authValues;
+  HomeNewBlogNavigateEvent({required this.authValues});
+}
 
 class HomeProfileNavigateEvent extends HomeEvent {}
