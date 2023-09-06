@@ -56,7 +56,7 @@ class _NewBlogWidgetState extends State<NewBlogWidget> {
                         letterSpacing: 0.5,
                         fontWeight: FontWeight.w500,
                       ),
-                      maxLines: 12, //or null
+                      maxLines: 10, //or null
                       maxLength: 500,
                       decoration: const InputDecoration.collapsed(
                         hintText: "What's up?"

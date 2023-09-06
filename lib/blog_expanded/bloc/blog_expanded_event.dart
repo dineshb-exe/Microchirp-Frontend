@@ -16,4 +16,11 @@ class BlogExpandedLikeClickedEvent extends BlogExpandedEvent {
   BlogExpandedLikeClickedEvent({required this.authValues, required this.clickedBlog});
 }
 
-class BlogExpandedCommentPostingEvent extends BlogExpandedEvent {}
+class BlogExpandedCommentPostingEvent extends BlogExpandedEvent {
+  GlobalBlogModel blog;
+  bool isLiked;
+  List<dynamic> comments;
+  String comment;
+  PostLogin authValues;
+  BlogExpandedCommentPostingEvent({required this.blog, required this.isLiked, required this.comments, required this.comment, required this.authValues});
+}

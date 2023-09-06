@@ -7,6 +7,7 @@ import 'package:microchirp_frontend/global_utilities/custom_app_bar.dart';
 import 'package:microchirp_frontend/home/bloc/home_bloc.dart';
 import 'package:microchirp_frontend/login/post_login_model.dart';
 import 'package:microchirp_frontend/login/ui/utilities/general_field.dart';
+import 'package:microchirp_frontend/new_blog/bloc/new_blog_bloc.dart';
 
 import 'comment_tile.dart';
 
@@ -16,6 +17,7 @@ class BlogExpandedWidget extends StatefulWidget {
   final GlobalBlogModel blog;
   final PostLogin authValues;
   List<dynamic> comments;
+  TextEditingController ctCont = TextEditingController();
   BlogExpandedWidget({super.key, required this.blogExpandedBloc, required this.isLiked, required this.blog, required this.authValues, required this.comments});
 
   @override
@@ -25,7 +27,7 @@ class BlogExpandedWidget extends StatefulWidget {
 class _BlogExpandedWidgetState extends State<BlogExpandedWidget> {
   String singleLike = "Like";
   String multipleLikes = "Likes";
-  TextEditingController ctCont = TextEditingController();
+  GlobalKey<FormState> commentTextKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,9 +123,9 @@ class _BlogExpandedWidgetState extends State<BlogExpandedWidget> {
               ),
             ),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height*0.05,
-          ),
+          // SizedBox(
+          //   height: MediaQuery.of(context).size.height*0,
+          // ),
           Expanded(
             child: SizedBox(
               height: MediaQuery.of(context).size.height*0.3,
@@ -137,6 +139,70 @@ class _BlogExpandedWidgetState extends State<BlogExpandedWidget> {
                   );
                 },
               ),
+            ),
+          ),
+          Form(
+            key: commentTextKey,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    elevation: 3,
+                    color: Theme
+                        .of(context)
+                        .colorScheme
+                        .onPrimary,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        style: GoogleFonts.montserrat(
+                          fontSize: 20,
+                          letterSpacing: 0.5,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        maxLines: 3, //or null
+                        maxLength: 100,
+                        decoration: const InputDecoration.collapsed(
+                            hintText: "Comment"
+                        ),
+                        controller: widget.ctCont,
+                        validator: (val){
+                          if(val==null||val==""){
+                            return "Please enter the value";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FilledButton(
+                    onPressed: () {
+                      if(commentTextKey.currentState!.validate()){
+                        widget.blogExpandedBloc.add(BlogExpandedCommentPostingEvent(blog: widget.blog, comments: widget.comments, isLiked: widget.isLiked, comment: widget.ctCont.text, authValues: widget.authValues));
+                      }
+                    },
+                    style: FilledButton.styleFrom(
+                        backgroundColor: (widget.ctCont.text.isNotEmpty) ? Theme
+                            .of(context)
+                            .colorScheme
+                            .primary : Theme
+                            .of(context)
+                            .colorScheme
+                            .secondary
+                    ),
+                    child: Text(
+                      "Post",
+                      style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],

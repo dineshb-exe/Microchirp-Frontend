@@ -13,6 +13,7 @@ part 'blog_expanded_state.dart';
 class BlogExpandedBloc extends Bloc<BlogExpandedEvent, BlogExpandedState> {
   BlogExpandedBloc() : super(BlogExpandedInitial()) {
     on<BlogExpandedInitialEvent>(blogExpandedInitialEvent);
+    on<BlogExpandedCommentPostingEvent>(blogExpandedCommentPostingEvent);
   }
 
   FutureOr<void> blogExpandedInitialEvent(BlogExpandedInitialEvent event, Emitter<BlogExpandedState> emit) async{
@@ -26,6 +27,26 @@ class BlogExpandedBloc extends Bloc<BlogExpandedEvent, BlogExpandedState> {
         blog: blog,
         isLiked: isLiked,
         comments: responseValues['data']
+      ));
+    }
+  }
+
+  FutureOr<void> blogExpandedCommentPostingEvent(BlogExpandedCommentPostingEvent event, Emitter<BlogExpandedState> emit) async {
+    List<dynamic> comments = event.comments;
+    CommentsModel commentsModel = CommentsModel(
+      user_id: event.authValues.userID,
+      display_title: "You just added",
+      blog_id: event.blog.blog_id,
+      comment_content: event.comment,
+    );
+    comments.add(commentsModel.toJson());
+    BlogExpandedServices blogExpandedServices = BlogExpandedServices();
+    var response = await blogExpandedServices.postNewComment(event.authValues, event.blog, event.comment);
+    if(response['status']=="Success"){
+      emit(BlogLoadedSuccessState(
+        blog: event.blog,
+        isLiked: event.isLiked,
+        comments: comments,
       ));
     }
   }

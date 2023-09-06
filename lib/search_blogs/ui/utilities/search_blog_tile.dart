@@ -50,23 +50,14 @@ class _SearchBlogTileState extends State<SearchBlogTile> {
                     ),
                   ),
                 ),
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: (){},
-                      icon: Icon(
-                        (isLiked)?Icons.favorite
-                            :Icons.favorite_border,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+                Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Text(
+                    "${widget.blog.like_count} ${(widget.blog.like_count==1)?singleLike:multipleLikes}",
+                    style: GoogleFonts.montserrat(
+                        fontWeight: FontWeight.w700
                     ),
-                    Text(
-                      "${widget.blog.like_count} ${(widget.blog.like_count==1)?singleLike:multipleLikes}",
-                      style: GoogleFonts.montserrat(
-                          fontWeight: FontWeight.w500
-                      ),
-                    ),
-                  ],
+                  ),
                 )
               ],
             ),
