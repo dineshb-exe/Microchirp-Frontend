@@ -56,6 +56,11 @@ class _NewBlogState extends State<NewBlog> {
             HomePage(authValues: state.authValues),
           );
         }
+        else if(state is NewBlogNavigateToSearchBlogsActionState){
+          context.router.popAndPush(
+            SearchBlogsPage(authValues: state.authValues),
+          );
+        }
       },
       listenWhen: (previous, current) => current is NewBlogActionState,
       buildWhen: (previous, current) => current is !NewBlogActionState,

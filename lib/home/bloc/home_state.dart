@@ -26,11 +26,16 @@ class HomeNavigateToBlogActionState extends HomeActionState {
   HomeNavigateToBlogActionState({required this.isLiked, required this.blogs, required this.authValues});
 }
 
-class HomeNavigateToSearchBlogsActionState extends HomeActionState {}
+class HomeNavigateToSearchBlogsActionState extends HomeActionState {
+  final PostLogin authValues;
+  HomeNavigateToSearchBlogsActionState({required this.authValues});
+}
 
 class HomeNavigateToNewBlogActionState extends HomeActionState {
   final PostLogin authValues;
   HomeNavigateToNewBlogActionState({required this.authValues});
 }
+class HomeNavigateToLoginActionState extends HomeActionState {
 
+}
 class HomeNavigateToProfileActionState extends HomeActionState {}

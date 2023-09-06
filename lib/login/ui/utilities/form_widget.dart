@@ -24,15 +24,21 @@ class _LoginFormState extends State<LoginForm> {
       key: widget.formKey,
       child: Column(
         children: [
-          GeneralField(
-            placeholder: "EMail",
-            tc: usernameCont,
-            validationType: 1
-          ),
-          GeneralField(
-              placeholder: "Password",
-              tc: passwordCont,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GeneralField(
+              placeholder: "EMail",
+              tc: usernameCont,
               validationType: 1
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: GeneralField(
+                placeholder: "Password",
+                tc: passwordCont,
+                validationType: 1
+            ),
           ),
           ElevatedButton(
             onPressed: (){

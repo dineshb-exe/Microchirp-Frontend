@@ -21,15 +21,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const Login(),
       );
     },
-    HomePage.name: (routeData) {
-      final args = routeData.argsAs<HomePageArgs>();
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: Home(
-          authValues: args.authValues,
-        ),
-      );
-    },
     BlogExpandedPage.name: (routeData) {
       final args = routeData.argsAs<BlogExpandedPageArgs>();
       return AutoRoutePage<dynamic>(
@@ -50,6 +41,30 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    HomePage.name: (routeData) {
+      final args = routeData.argsAs<HomePageArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: Home(
+          authValues: args.authValues,
+        ),
+      );
+    },
+    SearchBlogsPage.name: (routeData) {
+      final args = routeData.argsAs<SearchBlogsPageArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SearchBlogs(
+          authValues: args.authValues,
+        ),
+      );
+    },
+    SplashScreenPage.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SplashScreen(),
+      );
+    },
   };
 }
 
@@ -65,38 +80,6 @@ class LoginPage extends PageRouteInfo<void> {
   static const String name = 'LoginPage';
 
   static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [Home]
-class HomePage extends PageRouteInfo<HomePageArgs> {
-  HomePage({
-    required PostLogin authValues,
-    List<PageRouteInfo>? children,
-  }) : super(
-          HomePage.name,
-          args: HomePageArgs(
-            authValues: authValues,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'HomePage';
-
-  static const PageInfo<HomePageArgs> page = PageInfo<HomePageArgs>(name);
-}
-
-class HomePageArgs {
-  const HomePageArgs({
-    required this.authValues,
-  });
-
-  final PostLogin authValues;
-
-  @override
-  String toString() {
-    return 'HomePageArgs{authValues: $authValues}';
-  }
 }
 
 /// generated route for
@@ -172,4 +155,83 @@ class NewBlogPageArgs {
   String toString() {
     return 'NewBlogPageArgs{authValues: $authValues}';
   }
+}
+
+/// generated route for
+/// [Home]
+class HomePage extends PageRouteInfo<HomePageArgs> {
+  HomePage({
+    required PostLogin authValues,
+    List<PageRouteInfo>? children,
+  }) : super(
+          HomePage.name,
+          args: HomePageArgs(
+            authValues: authValues,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'HomePage';
+
+  static const PageInfo<HomePageArgs> page = PageInfo<HomePageArgs>(name);
+}
+
+class HomePageArgs {
+  const HomePageArgs({
+    required this.authValues,
+  });
+
+  final PostLogin authValues;
+
+  @override
+  String toString() {
+    return 'HomePageArgs{authValues: $authValues}';
+  }
+}
+
+/// generated route for
+/// [SearchBlogs]
+class SearchBlogsPage extends PageRouteInfo<SearchBlogsPageArgs> {
+  SearchBlogsPage({
+    required PostLogin authValues,
+    List<PageRouteInfo>? children,
+  }) : super(
+          SearchBlogsPage.name,
+          args: SearchBlogsPageArgs(
+            authValues: authValues,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'SearchBlogsPage';
+
+  static const PageInfo<SearchBlogsPageArgs> page =
+      PageInfo<SearchBlogsPageArgs>(name);
+}
+
+class SearchBlogsPageArgs {
+  const SearchBlogsPageArgs({
+    required this.authValues,
+  });
+
+  final PostLogin authValues;
+
+  @override
+  String toString() {
+    return 'SearchBlogsPageArgs{authValues: $authValues}';
+  }
+}
+
+/// generated route for
+/// [SplashScreen]
+class SplashScreenPage extends PageRouteInfo<void> {
+  const SplashScreenPage({List<PageRouteInfo>? children})
+      : super(
+          SplashScreenPage.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SplashScreenPage';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -13,6 +13,7 @@ class NewBlogBloc extends Bloc<NewBlogEvent, NewBlogState> {
     on<NewBlogInitialEvent>(newBlogInitialEvent);
     on<NewBlogPostButtonClickedEvent>(newBlogPostButtonClickedEvent);
     on<NewBlogHomeNavigateEvent>(newBlogHomeNavigateEvent);
+    on<NewBlogSearchBlogsNavigateEvent>(newBlogSearchBlogsNavigateEvent);
   }
 
   FutureOr<void> newBlogInitialEvent(NewBlogInitialEvent event, Emitter<NewBlogState> emit) {
@@ -37,5 +38,10 @@ class NewBlogBloc extends Bloc<NewBlogEvent, NewBlogState> {
     emit(NewBlogNavigateToHomeActionState(
       authValues: authValues
     ));
+  }
+
+  FutureOr<void> newBlogSearchBlogsNavigateEvent(NewBlogSearchBlogsNavigateEvent event, Emitter<NewBlogState> emit) {
+    PostLogin authValues = event.authValues;
+    emit(NewBlogNavigateToSearchBlogsActionState(authValues: authValues));
   }
 }

@@ -64,11 +64,19 @@ class _LoginState extends State<Login> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SizedBox(
-                      width: MediaQuery.of(context).size.width*0.5,
-                      height: MediaQuery.of(context).size.height*0.5,
+                      height: MediaQuery.of(context).size.height*0.25,
+                    ),
+                    CircleAvatar(
                       child: Image.asset(
-                        'assets/microchirp-black-on-white-background.png',
+                        (MediaQuery.of(context).platformBrightness == Brightness.dark)?
+                        'assets/microchirp-transparent.png':
+                        'assets/microchirp-low-resolution-logo-black-on-transparent-background.png',
                       ),
+                      backgroundColor: Theme.of(context).colorScheme.background,
+                      radius: 100,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height*0.05,
                     ),
                     LoginForm(
                       loginBloc: loginBloc,

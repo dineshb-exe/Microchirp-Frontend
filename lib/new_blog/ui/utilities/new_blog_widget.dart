@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:microchirp_frontend/global_utilities/custom_app_bar.dart';
+import 'package:microchirp_frontend/home/bloc/home_bloc.dart';
 import 'package:microchirp_frontend/login/post_login_model.dart';
 import 'package:microchirp_frontend/new_blog/bloc/new_blog_bloc.dart';
 
@@ -27,69 +28,77 @@ class _NewBlogWidgetState extends State<NewBlogWidget> {
             .of(context)
             .size
             .height * 0.09),
-        child: const CustomAppBar(
+        child: CustomAppBar(
             title: "New Blog",
-            automaticallyImplyLeading: false
+            automaticallyImplyLeading: false,
+          needLogoutButton: false,
+          homeBloc: HomeBloc(),
         ),
       ),
-      body: Form(
-        key: blogTextKey,
-        child: Column(
-          children: [
-            Card(
-              color: Theme
-                  .of(context)
-                  .colorScheme
-                  .onPrimary,
-              child: Padding(
+      body: SingleChildScrollView(
+        child: Form(
+          key: blogTextKey,
+          child: Column(
+            children: [
+              Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  style: GoogleFonts.montserrat(
-                    fontSize: 20,
-                    letterSpacing: 0.5,
-                    fontWeight: FontWeight.w500,
+                child: Card(
+                  elevation: 3,
+                  color: Theme
+                      .of(context)
+                      .colorScheme
+                      .onPrimary,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextFormField(
+                      style: GoogleFonts.montserrat(
+                        fontSize: 20,
+                        letterSpacing: 0.5,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      maxLines: 12, //or null
+                      maxLength: 500,
+                      decoration: const InputDecoration.collapsed(
+                        hintText: "What's up?"
+                      ),
+                      controller: widget.newBlogCont,
+                      validator: (val){
+                        if(val==null||val==""){
+                          return "Please enter the value";
+                        }
+                        return null;
+                      },
+                    ),
                   ),
-                  maxLines: 6, //or null
-                  maxLength: 250,
-                  decoration: const InputDecoration.collapsed(
-                    hintText: "What's up?"
-                  ),
-                  controller: widget.newBlogCont,
-                  validator: (val){
-                    if(val==null||val==""){
-                      return "Please enter the value";
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FilledButton(
+                  onPressed: () {
+                    if(blogTextKey.currentState!.validate()){
+                      widget.newBlogBloc.add(NewBlogPostButtonClickedEvent(authValues: widget.authValues, blogContent: widget.newBlogCont.text));
                     }
-                    return null;
                   },
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: FilledButton(
-                onPressed: () {
-                  if(blogTextKey.currentState!.validate()){
-                    widget.newBlogBloc.add(NewBlogPostButtonClickedEvent(authValues: widget.authValues, blogContent: widget.newBlogCont.text));
-                  }
-                },
-                style: FilledButton.styleFrom(
-                    backgroundColor: (widget.newBlogCont.text.isNotEmpty) ? Theme
-                        .of(context)
-                        .colorScheme
-                        .primary : Theme
-                        .of(context)
-                        .colorScheme
-                        .secondary
-                ),
-                child: Text(
-                  "Post",
-                  style: GoogleFonts.montserrat(
-                    fontWeight: FontWeight.w600,
+                  style: FilledButton.styleFrom(
+                      backgroundColor: (widget.newBlogCont.text.isNotEmpty) ? Theme
+                          .of(context)
+                          .colorScheme
+                          .primary : Theme
+                          .of(context)
+                          .colorScheme
+                          .secondary
+                  ),
+                  child: Text(
+                    "Post",
+                    style: GoogleFonts.montserrat(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: NavigationBar(
@@ -121,7 +130,11 @@ class _NewBlogWidgetState extends State<NewBlogWidget> {
               ));
             }
             else if (index == 1 && currentPageIndex != 1) {
-
+              widget.newBlogBloc.add(
+                NewBlogSearchBlogsNavigateEvent(
+                  authValues: widget.authValues
+                )
+              );
             }
             else if (index == 2 && currentPageIndex != 2) {
 

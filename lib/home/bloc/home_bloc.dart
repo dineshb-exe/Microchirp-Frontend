@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:microchirp_frontend/global_models/global_blog_model.dart';
+import 'package:microchirp_frontend/global_services/preferences.dart';
 import 'package:microchirp_frontend/home/home_services.dart';
 import 'package:microchirp_frontend/home/ui/home.dart';
 import 'package:microchirp_frontend/login/post_login_model.dart';
@@ -18,12 +20,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<HomeSearchBlogsNavigateEvent>(homeSearchBlogsNavigateEvent);
     on<HomeNewBlogNavigateEvent>(homeNewBlogNavigateEvent);
     on<HomeProfileNavigateEvent>(homeProfileNavigateEvent);
+    on<HomeLogoutEvent>(homeLogoutEvent);
   }
 
   FutureOr<void> homeInitialEvent(HomeInitialEvent event, Emitter<HomeState> emit) async{
-    emit(HomeLoadingState());
     PostLogin authValues = event.authValues;
     HomeServices h1 = HomeServices();
+    emit(HomeLoadingState());
+    await Future.delayed(const Duration(seconds: 2));
     var responseValues = await h1.feedBlogs(authValues);
     if(responseValues['status'] =="Failure"){
       emit(HomeErrorState());
@@ -50,7 +54,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> homeSearchBlogsNavigateEvent(HomeSearchBlogsNavigateEvent event, Emitter<HomeState> emit) {
-    emit(HomeNavigateToSearchBlogsActionState());
+    PostLogin authValues = event.authValues;
+    emit(HomeNavigateToSearchBlogsActionState(authValues: authValues));
   }
 
   FutureOr<void> homeNewBlogNavigateEvent(HomeNewBlogNavigateEvent event, Emitter<HomeState> emit) {
@@ -62,5 +67,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   FutureOr<void> homeProfileNavigateEvent(HomeProfileNavigateEvent event, Emitter<HomeState> emit) {
     emit(HomeNavigateToProfileActionState());
+  }
+
+  FutureOr<void> homeLogoutEvent(HomeLogoutEvent event, Emitter<HomeState> emit) async {
+    await saveJwtToSharedPreferences("");
+    await saveUserIDToSharedPreferences("");
+    emit(HomeNavigateToLoginActionState());
   }
 }

@@ -1,11 +1,8 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:microchirp_frontend/home/bloc/home_bloc.dart';
 import 'package:microchirp_frontend/global_models/global_blog_model.dart';
 import 'package:microchirp_frontend/login/post_login_model.dart';
-import 'package:microchirp_frontend/routes.dart';
 
 class BlogTile extends StatefulWidget {
   final HomeBloc homeBloc;
@@ -24,6 +21,7 @@ class _BlogTileState extends State<BlogTile> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 3,
       clipBehavior: Clip.hardEdge,
       child: InkWell(
         splashColor: Theme.of(context).colorScheme.onPrimaryContainer.withAlpha(60),

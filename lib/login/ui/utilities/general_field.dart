@@ -9,7 +9,7 @@ class GeneralField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width*0.07, 0, MediaQuery.of(context).size.width*0.07, MediaQuery.of(context).size.width*0.10),
+      padding: EdgeInsets.fromLTRB(MediaQuery.of(context).size.width*0.1, 0, MediaQuery.of(context).size.width*0.1, MediaQuery.of(context).size.width*0.10),
       child: TextFormField(
         decoration: InputDecoration(
           labelText: placeholder,

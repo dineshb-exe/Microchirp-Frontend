@@ -37,9 +37,16 @@ class _HomeFeedState extends State<HomeFeed> {
           );
         }
         else if(state is HomeNavigateToNewBlogActionState){
-          context.router.push(
+          context.router.popAndPush(
             NewBlogPage(authValues: state.authValues),
           );
+        }
+        else if(state is HomeNavigateToSearchBlogsActionState){
+          context.router.push(SearchBlogsPage(authValues: state.authValues));
+        }
+        else if(state is HomeNavigateToLoginActionState){
+          context.router.popUntilRoot();
+          context.pushRoute(const LoginPage());
         }
       },
       builder: (context, state) {
@@ -47,20 +54,29 @@ class _HomeFeedState extends State<HomeFeed> {
         return Scaffold(
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(MediaQuery.of(context).size.height*0.09),
-            child: const CustomAppBar(
+            child: CustomAppBar(
               automaticallyImplyLeading: false,
               title: "Home",
+              needLogoutButton: true,
+              homeBloc: widget.homeBloc2,
             )
           ),
-          body: ListView.builder(
-            itemCount: successState.blogs.length,
-            itemBuilder: (BuildContext context, int index) {
-              return BlogTile(
-                homeBloc: widget.homeBloc2,
-                blog: GlobalBlogModel.fromJSON(successState.blogs[index]),
-                authValues: successState.authValues,
-              );
+          body: RefreshIndicator(
+            onRefresh: () async{
+              widget.homeBloc2.add(HomeInitialEvent(
+                  authValues: widget.authValues
+              ));
             },
+            child: ListView.builder(
+              itemCount: successState.blogs.length,
+              itemBuilder: (BuildContext context, int index) {
+                return BlogTile(
+                  homeBloc: widget.homeBloc2,
+                  blog: GlobalBlogModel.fromJSON(successState.blogs[index]),
+                  authValues: successState.authValues,
+                );
+              },
+            ),
           ),
           bottomNavigationBar: NavigationBar(
             destinations: const <Widget>[
@@ -85,11 +101,8 @@ class _HomeFeedState extends State<HomeFeed> {
             ],
             selectedIndex: widget.currentPageIndex,
             onDestinationSelected: (int index){
-              if(index==0&&widget.currentPageIndex!=0){
-
-              }
-              else if(index==1&&widget.currentPageIndex!=1){
-
+              if(index==1&&widget.currentPageIndex!=1){
+                widget.homeBloc2.add(HomeSearchBlogsNavigateEvent(authValues: widget.authValues));
               }
               else if(index==2&&widget.currentPageIndex!=2){
                 widget.homeBloc2.add(HomeNewBlogNavigateEvent(authValues: widget.authValues));
